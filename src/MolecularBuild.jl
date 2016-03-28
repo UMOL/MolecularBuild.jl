@@ -1,11 +1,3 @@
-if !isdefined(:MolecularDataType)
-    include(joinpath("..","..","MolecularDataType","src","MolecularDataType.jl"))
-end
-
-if !isdefined(:MolecularMove)
-    include(joinpath("..","..","MolecularMove","src","MolecularMove.jl"))
-end
-
 """
 ``MolecularBuild`` module is designed to build 
 large molecules from smaller ones.

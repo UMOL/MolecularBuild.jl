@@ -1,5 +1,5 @@
 """
-Arrange the input molecule to form a 1D grid
+Arrange the input molecule to form a n-dimensional grid
 and return an array of clones of the original molecule.
 
 Arguments
