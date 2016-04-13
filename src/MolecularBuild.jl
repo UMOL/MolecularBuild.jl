@@ -6,8 +6,9 @@ module MolecularBuild
 
 using MolecularDataType
 using MolecularMove
+using MolecularGeometry
 
-export Grid, Grid1D
+export Grid1D, Grid
 export build
 
 macro debug(expression)
@@ -20,8 +21,8 @@ macro debug_info(expression)
     # return nothing
 end
 
-include(joinpath("type","Grid","all.jl"))
+include(joinpath("type","all.jl"))
 
-include(joinpath("function","grid","all.jl"))
+include(joinpath("function","all.jl"))
 
 end
