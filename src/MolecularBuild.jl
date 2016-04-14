@@ -9,7 +9,7 @@ using MolecularMove
 using MolecularGeometry
 
 export Grid1D, Grid
-export build
+export build, align
 
 macro debug(expression)
     return :(@assert $expression)
