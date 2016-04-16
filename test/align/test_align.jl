@@ -3,25 +3,25 @@ A test for align() for array of coordinates.
 
 Arguments
 -----------
-coordinates:Array 
+coordinates:AbstractArray 
     array of coordinates 
 
-align_ref:Array
+align_ref:AbstractArray
     reference vector for alignment 
 
-center:Array 
+center:AbstractArray 
     center of alignment rotation
 
 inverted:Bool
     invert the final result?
 
-solution:Array 
+solution:AbstractArray 
     answer key
 
 msg="":AbstractString
     optional test message
 """
-function test_align(coordinates::Array, align_ref::Array, center::Array, inverted::Bool, solution::Array, msg::AbstractString="")
+function test_align(coordinates::AbstractArray, align_ref::AbstractArray, center::AbstractArray, inverted::Bool, solution::AbstractArray, msg::AbstractString="")
     println("-----------------------------------")
     print_with_color(:blue, "Test align()\n")
     if msg != ""
