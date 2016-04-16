@@ -1,4 +1,4 @@
-test_grid_nD(
+test_build(Grid,
     make_molecular_system(coordinate=Array[[0., 0., 0.]]),
     Array[[1.,0.,0.], [0., 1., 0.], [0., 0., 1.]],
     (1., 1., 1.),

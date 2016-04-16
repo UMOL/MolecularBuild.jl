@@ -22,18 +22,18 @@ msg="":AbstractString
     optional test message
 """
 function test_align(coordinates::AbstractArray, align_ref::AbstractArray, center::AbstractArray, inverted::Bool, solution::AbstractArray, msg::AbstractString="")
-    println("-----------------------------------")
+    print_dashed_line(80)
     print_with_color(:blue, "Test align()\n")
     if msg != ""
         print_with_color(:blue, "$(msg)\n")
     end
 
-    answer = align(coordinates, align_ref; center=center, inverted=inverted)
+    @time answer = align(coordinates, align_ref; center=center, inverted=inverted)
     for i = 1:length(solution)
         @test_approx_eq_eps answer[i] solution[i] 1e-15
     end
     print_with_color(:green, "VERIFIED!\n")
-    println("-----------------------------------")
+    print_dashed_line(80)
     return true 
 end
 test_align(Array[[1., 0., 0.]], [0., 1., 0.], [0.,0.,0.], false, Array[[0., 1., 0.]], "test 1")

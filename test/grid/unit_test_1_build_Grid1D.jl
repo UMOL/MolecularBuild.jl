@@ -1,4 +1,4 @@
-test_grid_1D(
+test_build(Grid1D,
     make_molecular_system(coordinate=Array[[32.551,   1.074,  73.319]]),
     [1.,1.,1.],
     sqrt(3.),

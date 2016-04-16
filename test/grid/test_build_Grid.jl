@@ -3,6 +3,9 @@ A test for build(Grid,...).
 
 Arguments
 -----------
+:Type{Grid}
+    must be type ``Grid``,
+
 obj:AbstractMolecularContainer
     target object
 
@@ -21,14 +24,14 @@ solution:Array
 msg="":AbstractString
     optional test message
 """
-function test_grid_nD(
+function test_build(::Type{Grid},
     obj::AbstractMolecularContainer,
     directions::Array,
     spacings::Tuple,
     counts::Tuple,
     solution::Array,
     msg::AbstractString="")
-    println("------------------------------")
+    print_dashed_line(80)
     print_with_color(:blue,"Test build(Grid,...)\n\n")
     if msg != ""
         print_with_color(:blue, "$(msg)\n\n")
@@ -41,7 +44,7 @@ function test_grid_nD(
     end
 
     print_with_color(:green, "VERIFIED! build(Grid,...)\n\n")
-    println("------------------------------")
+    print_dashed_line(80)
     return true
 end
-include("unit_test_1_grid_nD.jl")
+include("unit_test_1_build_Grid.jl")

@@ -5,7 +5,7 @@ the Fibonacci (sunflower) algorithm.
 Arguments
 ----------
 :Type{FibonacciSphere}
-    must be type ``Grid``
+    must be type ``FibonacciSphere``
 
 obj:AbstractMolecularContainer
     input molecule 

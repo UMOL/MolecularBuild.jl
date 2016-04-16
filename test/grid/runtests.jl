@@ -1,2 +1,2 @@
-include("test_grid_1D.jl")
-include("test_grid_nD.jl")
+include("test_build_Grid1D.jl")
+include("test_build_Grid.jl")

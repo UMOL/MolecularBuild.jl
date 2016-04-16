@@ -7,6 +7,6 @@ using MolecularBuild
 
 using MolecularDataType
 
-
-# include(joinpath("grid","runtests.jl"))
+include("print_dashed_line.jl")
+include(joinpath("grid","runtests.jl"))
 include(joinpath("align","runtests.jl"))
