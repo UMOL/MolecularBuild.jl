@@ -37,10 +37,12 @@ function test_build(::Type{Grid},
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    answer = build(Grid, obj, directions, spacings, counts)
+    @time answer = build(Grid, obj, directions, spacings, counts)
 
     for i = 1:length(solution)
-        @test obtain(answer[i], :coordinate) == solution[i]
+        for j = 1:length(solution[i])
+            @test_approx_eq obtain(answer[i], :coordinate)[j] solution[i][j]
+        end
     end
 
     print_with_color(:green, "VERIFIED! build(Grid,...)\n\n")
