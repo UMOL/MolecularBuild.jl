@@ -31,13 +31,18 @@ function test_align(coordinates::AbstractArray, align_ref::AbstractArray, center
 
     @time answer = align(coordinates, align_ref; center=center, inverted=inverted)
     
+    new_center = gage(GeometricCenter, answer)
+    println("new center: ", new_center)
+    println("direction ", answer[2]-answer[1])
     for i = 1:length(solution)
+        println("answer ", i, " ", answer[i])
         @test_approx_eq_eps answer[i] solution[i] 1e-15
     end
     print_with_color(:green, "VERIFIED!\n")
     print_dashed_line(80)
     return true 
 end
-include("unit_test_1_align.jl")
-include("unit_test_2_align.jl")
-include("unit_test_3_align.jl")
+# include("unit_test_1_align.jl")
+# include("unit_test_2_align.jl")
+# include("unit_test_3_align.jl")
+include("unit_test_4_align.jl")
