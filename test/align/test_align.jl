@@ -1,3 +1,4 @@
+using MolecularGeometry 
 """
 A test for align() for array of coordinates.
 
@@ -29,6 +30,7 @@ function test_align(coordinates::AbstractArray, align_ref::AbstractArray, center
     end
 
     @time answer = align(coordinates, align_ref; center=center, inverted=inverted)
+    
     for i = 1:length(solution)
         @test_approx_eq_eps answer[i] solution[i] 1e-15
     end
@@ -36,17 +38,6 @@ function test_align(coordinates::AbstractArray, align_ref::AbstractArray, center
     print_dashed_line(80)
     return true 
 end
-test_align(Array[[1., 0., 0.]], [0., 1., 0.], [0.,0.,0.], false, Array[[0., 1., 0.]], "test 1")
-test_align(Array[[0., 0., 1.]], [0., 1., 0.], [0.,0.,0.],false, Array[[0., -1., 0.]], "test 2")
-test_align(Array[[0., 0., 1.]], [0., 1., 0.], [0.,0.,0.], true, Array[[0., 1., 0.]], "test 3")
-test_align(Array[[0., 1., 0.]], [1., 0., 0.], [0.,0.,0.], true, Array[[1., 0., 0.]], "test 4")
-test_align(Array[
-    [sqrt(2), 0., 0.],
-    [1.,1.,0.],
-    [0.,sqrt(2),0.]], 
-    [0., 1., 0.], [0.,0.,0.], 
-    false,
-    Array[
-    [1., 1., 0.],
-    [0.,sqrt(2),0.],
-    [-1.,1.,0.]], "test 5")
+include("unit_test_1_align.jl")
+include("unit_test_2_align.jl")
+include("unit_test_3_align.jl")
