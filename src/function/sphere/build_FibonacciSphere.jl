@@ -34,7 +34,6 @@ function build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer, count::
         new_coordinates = fn_move(coordinates)
         ref_vector = fn_move(zeros(3))
         alignment_center=gage(GeometricCenter, new_coordinates)
-        println("new_coordinates ", new_coordinates)
         return align(new_coordinates, ref_vector; center=alignment_center, inverted=inverted)
     end
 

@@ -35,10 +35,13 @@ function test_build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer,
     aligned::Bool=false)
     print_dashed_line(80)
     print_with_color(:blue, "Test build(FibonacciSphere,...)\n\n")
+    
     if msg != ""
         print_with_color(:blue, "$(msg)\n\n")
     end
+
     @time answer = build(FibonacciSphere, obj, count, radius; center=center, aligned=aligned)
+    
     for i = 1:length(solution)
         for j = 1:length(solution[i])
             @test_approx_eq obtain(answer[i],:coordinate)[j] solution[i][j]
@@ -49,5 +52,5 @@ function test_build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer,
     return true
 end
 
-# include("unit_test_1_build_FibonacciSphere.jl")
+include("unit_test_1_build_FibonacciSphere.jl")
 include("unit_test_2_build_FibonacciSphere.jl")
