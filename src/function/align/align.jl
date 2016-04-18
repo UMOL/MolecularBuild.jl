@@ -27,6 +27,10 @@ function align(input::AbstractArray, new_orientation::AbstractArray,
     center::AbstractArray=[], inverted::Bool=false)
     
     orientation = gage(PrincipalAxes, input; center=center)[:,1]
+    if inverted
+        orientation = -orientation
+    end 
+
     ref_axis = cross(orientation, new_orientation)
 
     # check whether the input is already aligned to the new orientation
@@ -39,9 +43,5 @@ function align(input::AbstractArray, new_orientation::AbstractArray,
 
     angle = gage(ProjectedRotationAngle, orientation, new_orientation, ref_axis)
 
-    if inverted
-       return -rotate(Euclidean3D, input, ref_axis, angle; center=center)
-    else
-       return rotate(Euclidean3D, input, ref_axis, angle; center=center)
-    end
+    return rotate(Euclidean3D, input, ref_axis, angle; center=center)
 end

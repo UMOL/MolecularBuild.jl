@@ -9,6 +9,6 @@ using MolecularDataType
 
 include("print_dashed_line.jl")
 
-# include(joinpath("align","runtests.jl"))
+include(joinpath("align","runtests.jl"))
 # include(joinpath("grid","runtests.jl"))
-include(joinpath("sphere","runtests.jl"))
+# include(joinpath("sphere","runtests.jl"))
