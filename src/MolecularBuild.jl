@@ -9,6 +9,7 @@ using MolecularMove
 using MolecularGeometry
 
 export Grid1D, Grid
+export RandomGrid3D
 export FibonacciSphere
 export build, align
 
