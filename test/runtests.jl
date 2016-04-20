@@ -7,6 +7,7 @@ end
 using MolecularBuild
 import MolecularBuild.remove_invalid_index_tuples
 import MolecularBuild.lower_index_tuple
+import MolecularBuild.lower_neighbors
 
 using MolecularDataType
 
