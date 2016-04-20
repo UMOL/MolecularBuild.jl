@@ -13,7 +13,7 @@ solution:Tuple
 msg="":AbstractString
     (optional) test message
 """
-function lower_index_tuple(index_tuple::Tuple, id::Integer,solution::Tuple, msg::AbstractString="")
+function test_lower_index_tuple(index_tuple::Tuple, id::Integer,solution::Tuple, msg::AbstractString="")
     print_dashed_line(80)
     print_with_color(:blue, "Test lower_index_tuple()\n\n")
     if msg != ""
@@ -25,3 +25,4 @@ function lower_index_tuple(index_tuple::Tuple, id::Integer,solution::Tuple, msg:
     print_dashed_line(80)
     return true
 end
+include("unit_test_1_lower_index_tuple.jl")

@@ -11,5 +11,5 @@ id:Integer
     which index 
 """
 function lower_index_tuple(index_tuple::Tuple, id::Integer)
-    return tuple(map((i) -> i == id ? (index_tuple[i] - 1) : index_tuple[i], index_tuple)...)
+    return tuple(map((i) -> i == id ? (index_tuple[i] - 1) : index_tuple[i], 1:length(index_tuple))...)
 end
