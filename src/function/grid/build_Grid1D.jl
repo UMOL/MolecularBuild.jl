@@ -27,6 +27,7 @@ function build(::Type{Grid1D},
 
     coordinate_template = obtain(one_clone(obj), :coordinate)
     
+    # use map
     return [one_clone(obj, Dict([(:coordinate, transform(coordinate_template))])) for transform in fn_array]
 end
 
