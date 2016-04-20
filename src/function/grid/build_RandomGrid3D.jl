@@ -53,6 +53,8 @@ function build(::Type{RandomGrid3D},
             else
                 new_coordinate = rotate(RandomEuclidean3D, coordinate_array[i], tol_near_zero, max_iteration; center=center, seed=seed)
             end
+
+            neighbor_ids = lower_neighbors(ind2sub(counts, id))
         end
     end
 
