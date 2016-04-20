@@ -12,9 +12,9 @@ Arguments
 input:Tuple
     a tuple of indices
 
-max_index:Integer
-    maximum index 
+matrix_shape:Tuple
+    number of matrix elements along each dimension
 """
-function lower_neighbors(::Type{Grid}, input::Tuple, max_index::Integer)
-    return remove_invalid_index_tuples([lower_index_tuple(input, i) for i = 1:length(input)], max_index)
+function lower_neighbors(::Type{Grid}, input::Tuple, matrix_shape::Tuple)
+    return remove_invalid_index_tuples([lower_index_tuple(input, i) for i = 1:length(input)], matrix_shape)
 end
