@@ -16,7 +16,5 @@ max_index:Integer
     maximum index 
 """
 function lower_neighbors(::Type{Grid}, input::Tuple, max_index::Integer)
-
-    return remove_invalid_index_tuples(
-        [])
+    return remove_invalid_index_tuples([lower_index_tuple(input, i) for i = 1:length(input)], max_index)
 end
