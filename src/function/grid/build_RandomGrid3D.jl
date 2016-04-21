@@ -9,7 +9,7 @@ Arguments
 obj:AbstractMolecularContainer
     input molecule 
 
-directions:Array{Array,1}
+directions:AbstractArray{Array,1}
     direction of the grid for each dimension
 
 spacings:Tuple  
@@ -21,14 +21,16 @@ counts:Tuple
 tol_near_zero:AbstractFloat
     (optional) tolerance for being close to zero
 
-max_iteration=10000:Integer
-    (optional) maximum number of iteration for choosing proper random orientation
-
 seed=0:Integer
     (keyword) seed for the random number generator.
     If non-zero, this seed will be used for the random number
     generator.
 
+max_iteration=1000:Integer
+    (keyword) maximum number of iteration for choosing proper random orientation
+
+tolerance=1e-3:AbstractFloat
+    (keyword) tolerance for clashes between neighboring molecules
 """ 
 function build(::Type{RandomGrid3D}, 
     obj::AbstractMolecularContainer,
@@ -37,29 +39,30 @@ function build(::Type{RandomGrid3D},
     counts::Tuple,
     tol_near_zero::AbstractFloat=1e-7; 
     seed::Integer=0,
-    max_iteration::Integer=10000)
+    max_iteration::Integer=1000,
+    tolerance::AbstractFloat=1e-3)
 
     fn_array = MolecularMove.grid(directions, spacings, counts)
 
     coordinate_template = obtain(one_clone(obj), :coordinate)
 
-    raw_coordinate_array = [fn_move(coordinate_template) for fn_move in fn_array]
+    coordinate_array = [fn_move(coordinate_template) for fn_move in fn_array]
 
-    function fn_orient(coordinate_array::AbstractArray, id::Integer, max_iteration::Integer)
-        center = gage(GeometricCenter, coordinate)
-        for i = 1:max_iteration
-            if seed == 0
-                new_coordinate = rotate(RandomEuclidean3D, coordinate_array[i], tol_near_zero, max_iteration; center=center)
-            else
-                new_coordinate = rotate(RandomEuclidean3D, coordinate_array[i], tol_near_zero, max_iteration; center=center, seed=seed)
-            end
-
-            neighbor_ids = lower_neighbors(ind2sub(counts, id))
-        end
+    # only use the seed once
+    if seed != 0
+        rotate(RandomEuclidean3D, seed)
     end
-
-
-
+    function fn_orient(id::Integer)
+        neighbor_ids = map(sub2ind, lower_neighbors(Grid, ind2sub(counts, id), counts))
+        center = gage(GeometricCenter, coordinate_array[id])
+        for i = 1:max_iteration
+            new_coordinate = rotate(RandomEuclidean3D, coordinate_array[id], tol_near_zero, max_iteration; center=center)
+            if !has_clash(new_coordinate, coordinate_array[neighbor_ids], tolerance)
+                return new_coordinate
+            end
+        end
+        return coordinate_array[id]
+    end
     
-    return [one_clone(obj, Dict([(:coordinate, transform(coordinate_template))])) for transform in fn_array]
+    return [one_clone(obj, Dict([(:coordinate, fn_orient(i))])) for i = 1:length(coordinate_array)]
 end
