@@ -13,13 +13,13 @@ obj:AbstractMolecularContainer
 direction=[]:Array{Array,1}
     (keyword arg.) direction of the grid for each dimension
 
-spacing:Tuple  
+spacing=():Tuple  
     (keyword arg.) spacing between two neighboring grid points for each dimension
 
 count:Tuple
     (keyword arg.) number of grid points for each dimension
 """
 function build(::Type{Grid}, obj::AbstractMolecularContainer;
-    direction::Array=[], spacing::Tuple=0., count::Tuple=0)
+    direction::Array=[], spacing::Tuple=(), count::Tuple=0)
     return build(Grid, obj, direction, spacing, count)
 end
