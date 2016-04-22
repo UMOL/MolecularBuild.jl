@@ -55,8 +55,11 @@ function build(::Type{RandomGrid3D},
     function fn_orient(id::Integer)
         neighbor_ids = map(sub2ind, lower_neighbors(Grid, ind2sub(counts, id), counts))
         center = gage(GeometricCenter, coordinate_array[id])
+        println("center = ", center)
         for i = 1:max_iteration
-            new_coordinate = rotate(RandomEuclidean3D, coordinate_array[id], tol_near_zero, max_iteration; center=center)
+            println("i = ", i)
+            # new_coordinate = rotate(RandomEuclidean3D, coordinate_array[id], tol_near_zero, max_iteration; center=center)
+            new_coordinate = rotate(Euclidean3D, coordinate_array[id], [1., 0., 0.], pi/2.; center=center)
             if !has_clash(new_coordinate, coordinate_array[neighbor_ids], tolerance)
                 return new_coordinate
             end
