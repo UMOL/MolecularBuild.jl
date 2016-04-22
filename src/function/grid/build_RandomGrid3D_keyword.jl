@@ -29,8 +29,8 @@ seed=0:Integer
 max_iteration=1000:Integer
     (keyword) maximum number of iteration for choosing proper random orientation
 
-tolerance=1e-3:AbstractFloat
-    (keyword) tolerance for clashes between neighboring molecules
+clash_cutoff=1e-3:AbstractFloat
+    (keyword) cutoff distance for clashes between neighboring molecules
 """ 
 function build(::Type{RandomGrid3D}, 
     obj::AbstractMolecularContainer,
@@ -40,7 +40,7 @@ function build(::Type{RandomGrid3D},
     counts::Tuple=(),
     seed::Integer=0,
     max_iteration::Integer=1000,
-    tolerance::AbstractFloat=1e-3)
+    clash_cutoff::AbstractFloat=1e-3)
     return build(RandomGrid3D, obj, directions, spacings, counts, tol_near_zero;
-        seed=seed, max_iteration=max_iteration, tolerance=tolerance)
+        seed=seed, max_iteration=max_iteration, clash_cutoff=clash_cutoff)
 end

@@ -10,12 +10,12 @@ target:AbstractArray
 array_of_vectors:AbstractArray
     an array of vectors 
 
-tolerance=1e-5:AbstractFloat
-    (optional) tolerance for a distance to be considered as clashing
+clash_cutoff=1e-5:AbstractFloat
+    (optional) cutoff distance for a distance to be considered as clashing
 """
-function has_clash(target::AbstractArray, array_of_vectors::AbstractArray, tolerance::AbstractFloat=1e-5)
+function has_clash(target::AbstractArray, array_of_vectors::AbstractArray, clash_cutoff::AbstractFloat=1e-5)
     for item in array_of_vectors
-        if gage(MinDistance, target, item) < tolerance
+        if gage(MinDistance, target, item) < clash_cutoff
             return true
         end
     end

@@ -29,8 +29,8 @@ seed=0:Integer
 max_iteration=1000:Integer
     (keyword) maximum number of iteration for choosing proper random orientation
 
-tolerance=1e-3:AbstractFloat
-    (keyword) tolerance for clashes between neighboring molecules
+clash_cutoff=1e-3:AbstractFloat
+    (keyword) cutoff distance for clashes between neighboring molecules
 """ 
 function build(::Type{RandomGrid3D}, 
     obj::AbstractMolecularContainer,
@@ -40,7 +40,7 @@ function build(::Type{RandomGrid3D},
     tol_near_zero::AbstractFloat=1e-7; 
     seed::Integer=0,
     max_iteration::Integer=1000,
-    tolerance::AbstractFloat=1e-3)
+    clash_cutoff::AbstractFloat=1e-3)
 
     fn_array = MolecularMove.grid(directions, spacings, counts)
 
@@ -53,17 +53,15 @@ function build(::Type{RandomGrid3D},
         rotate(RandomEuclidean3D, seed)
     end
     function fn_orient(id::Integer)
-        neighbor_ids = map(sub2ind, lower_neighbors(Grid, ind2sub(counts, id), counts))
+        neighbor_ids = map((sub_id)->sub2ind(counts, sub_id...), lower_neighbors(Grid, ind2sub(counts, id), counts))
         center = gage(GeometricCenter, coordinate_array[id])
-        println("center = ", center)
         for i = 1:max_iteration
-            println("i = ", i)
-            # new_coordinate = rotate(RandomEuclidean3D, coordinate_array[id], tol_near_zero, max_iteration; center=center)
-            new_coordinate = rotate(Euclidean3D, coordinate_array[id], [1., 0., 0.], pi/2.; center=center)
-            if !has_clash(new_coordinate, coordinate_array[neighbor_ids], tolerance)
+            new_coordinate = rotate(RandomEuclidean3D, coordinate_array[id], tol_near_zero, max_iteration; center=center)
+            if !has_clash(new_coordinate, coordinate_array[neighbor_ids], clash_cutoff)
                 return new_coordinate
             end
         end
+        @debug println(max_iteration , " max_iteration reached!")
         return coordinate_array[id]
     end
     

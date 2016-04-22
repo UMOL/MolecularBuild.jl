@@ -25,7 +25,7 @@ msg="":AbstractString
     (optional) test message
 
 tol_near_zero=1e-3:AbstractFloat
-    (optional) tolerance for being close to zero
+    (optional) clash_cutoff for being close to zero
 
 max_iteration=1000:Integer
     (keyword) maximum number of iteration for choosing proper random orientation
@@ -35,8 +35,8 @@ seed=0:Integer
     If non-zero, this seed will be used for the random number
     generator.
 
-tolerance=1e-3:AbstractFloat
-    (keyword) tolerance for clashes between neighboring molecules
+clash_cutoff=1e-3:AbstractFloat
+    (keyword) cutoff distance for clashes between neighboring molecules
 """
 function test_build(::Type{RandomGrid3D},
     obj::AbstractMolecularContainer,
@@ -48,7 +48,7 @@ function test_build(::Type{RandomGrid3D},
     tol_near_zero::AbstractFloat=1e-3;
     max_iteration::Integer=1000,
     seed::Integer=0,
-    tolerance::AbstractFloat=1e-3)
+    clash_cutoff::AbstractFloat=1e-3)
 
     print_dashed_line(80)
     print_with_color(:blue,"Test build(RandomGrid3D,...)\n\n")
@@ -56,7 +56,7 @@ function test_build(::Type{RandomGrid3D},
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    @time answer = build(RandomGrid3D, obj, directions, spacings, counts, tol_near_zero; max_iteration=max_iteration, seed=seed, tolerance=tolerance)
+    @time answer = build(RandomGrid3D, obj, directions, spacings, counts, tol_near_zero; max_iteration=max_iteration, seed=seed, clash_cutoff=clash_cutoff)
 
     for i = 1:length(solution)
         for j = 1:length(solution[i])
