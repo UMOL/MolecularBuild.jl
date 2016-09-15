@@ -1,1 +1,1 @@
-include("test_build_FibonacciSphere.jl")
+include(joinpath("fibonacci", "test_build_FibonacciSphere.jl"))
