@@ -39,9 +39,7 @@ function align(input::AbstractArray, new_orientation::AbstractArray,
         return input # no need to rotate
     else # normalize the ref_axis
         ref_axis = ref_axis ./ ref_axis_length
+        angle = gage(ProjectedRotationAngle, orientation, new_orientation, ref_axis)
+        return rotate(Euclidean3D, input, ref_axis, angle; center=center)
     end
-
-    angle = gage(ProjectedRotationAngle, orientation, new_orientation, ref_axis)
-
-    return rotate(Euclidean3D, input, ref_axis, angle; center=center)
 end
