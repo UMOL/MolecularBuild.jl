@@ -23,6 +23,10 @@ function build_sphere(fn_iterator::AbstractMoveIterator,
     
     coordinate_template = obtain(one_clone(obj), :coordinate)
     function move_and_algin(coordinates::AbstractArray, fn_move::Function, inverted::Bool)
+        # developer's note (10-14-2016):
+        # It is much better to algin first then make a move (translation)
+        # otherwise the orientation of the final produce may randomly be inverted
+        # due to the brittleness of the matrix version of rotation.
         ref_vector = fn_move(zeros(3))
         alignment_center=gage(GeometricCenter, coordinates)
         aligned_coordinates = align(coordinates, ref_vector; center=alignment_center, inverted=inverted)
