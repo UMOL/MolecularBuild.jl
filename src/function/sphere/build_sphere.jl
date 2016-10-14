@@ -23,10 +23,10 @@ function build_sphere(fn_iterator::AbstractMoveIterator,
     
     coordinate_template = obtain(one_clone(obj), :coordinate)
     function move_and_algin(coordinates::AbstractArray, fn_move::Function, inverted::Bool)
-        new_coordinates = fn_move(coordinates)
         ref_vector = fn_move(zeros(3))
-        alignment_center=gage(GeometricCenter, new_coordinates)
-        return align(new_coordinates, ref_vector; center=alignment_center, inverted=inverted)
+        alignment_center=gage(GeometricCenter, coordinates)
+        aligned_coordinates = align(coordinates, ref_vector; center=alignment_center, inverted=inverted)
+        return fn_move(aligned_coordinates)
     end
 
     if aligned == true 
