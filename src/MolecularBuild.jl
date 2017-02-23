@@ -10,7 +10,9 @@ using MolecularGeometry
 
 export Grid1D, Grid
 export RandomGrid3D
-export FibonacciSphere, PartialFibonacciSphere
+export FibonacciSphere
+export PartialFibonacciSphere
+export FibonacciCylinder
 export build, align
 
 macro debug(expression)
