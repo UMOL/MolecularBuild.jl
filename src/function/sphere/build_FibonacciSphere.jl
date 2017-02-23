@@ -31,6 +31,6 @@ function build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer, count::
     
     fn_iterator = MolecularMove.sphere(Fibonacci, count, radius; center=center)
     
-    return build_sphere(fn_iterator, obj, aligned, inverted)
+    return build_shape(fn_iterator, obj, aligned, inverted)
 end
 

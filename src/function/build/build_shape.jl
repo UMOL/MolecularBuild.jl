@@ -1,5 +1,5 @@
 """
-Arrange a objects on a sphere using
+Arrange a objects on a shape using
 an input function(algorithm).
 
 Arguments
@@ -17,7 +17,7 @@ aligned:Bool
 inverted:Bool
     if true, then the final orientation will be inverted
 """
-function build_sphere(fn_iterator::AbstractMoveIterator, 
+function build_shape(fn_iterator::AbstractMoveIterator, 
     obj::AbstractMolecularContainer,
     aligned::Bool, inverted::Bool)
     

@@ -39,6 +39,6 @@ function build(::Type{PartialFibonacciSphere}, obj::AbstractMolecularContainer,
     
     fn_iterator = MolecularMove.sphere(PartialFibonacci, count, radius, zmin, zmax; center=center)
     
-    return build_sphere(fn_iterator, obj, aligned, inverted)
+    return build_shape(fn_iterator, obj, aligned, inverted)
 end
 
