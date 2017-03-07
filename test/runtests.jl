@@ -16,6 +16,6 @@ include("print_dashed_line.jl")
 
 # include(joinpath("align","runtests.jl"))
 # include(joinpath("grid","runtests.jl"))
-# include(joinpath("sphere","runtests.jl"))
-include(joinpath("cylinder","runtests.jl"))
+include(joinpath("sphere","runtests.jl"))
+# include(joinpath("cylinder","runtests.jl"))
 # include(joinpath("toolkit","runtests.jl"))

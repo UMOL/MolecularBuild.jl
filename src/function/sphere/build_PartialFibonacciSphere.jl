@@ -32,13 +32,18 @@ aligned:Bool
 inverted:Bool
     (keyword) if true, then the final orientation will be inverted
 """
-function build(::Type{PartialFibonacciSphere}, obj::AbstractMolecularContainer, 
-    count::Integer, radius::AbstractFloat,
-    zmin::Real, zmax::Real; 
-    center::AbstractArray=[0.,0.,0.], aligned::Bool=false, inverted::Bool=false)
+function build{T<:AbstractMolecularContainer}(::Type{PartialFibonacciSphere},
+    objs::Array{T,1},
+    count::Integer,
+    radius::AbstractFloat,
+    zmin::Real,
+    zmax::Real; 
+    center::AbstractArray=[0.,0.,0.],
+    aligned::Bool=false,
+    inverted::Bool=false)
     
     fn_iterator = MolecularMove.sphere(PartialFibonacci, count, radius, zmin, zmax; center=center)
     
-    return build_shape(fn_iterator, obj, aligned, inverted)
+    return build_shape(fn_iterator, objs, aligned, inverted)
 end
 

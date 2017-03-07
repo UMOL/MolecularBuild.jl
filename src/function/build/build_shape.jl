@@ -7,8 +7,8 @@ Arguments
 fn_iterator:AbstractMoveIterator
     a instance of the ``AbstractMoveIterator``
 
-obj:AbstractMolecularContainer
-    input molecule 
+objs:Array{AbstractMolecularContainer,1}
+    input molecules
 
 aligned:Bool
     if ``true``, then the principal axis of each object will
@@ -17,11 +17,14 @@ aligned:Bool
 inverted:Bool
     if true, then the final orientation will be inverted
 """
-function build_shape(fn_iterator::AbstractMoveIterator, 
-    obj::AbstractMolecularContainer,
+function build_shape{T<:AbstractMolecularContainer}(
+    fn_iterator::AbstractMoveIterator, 
+    objs::Array{T,1},
     aligned::Bool, inverted::Bool)
     
-    coordinate_template = obtain(one_clone(obj), :coordinate)
+    obj_count = length(objs)
+    get_obj() = objs[rand(1:obj_count)]  # randomly choose an object
+    coordinate_template(obj) = obtain(one_clone(obj), :coordinate)
     function move_and_algin(coordinates::AbstractArray, fn_move::Function, inverted::Bool)
         # developer's note (10-14-2016):
         # It is much better to algin first then make a move (translation)
@@ -33,10 +36,13 @@ function build_shape(fn_iterator::AbstractMoveIterator,
         return fn_move(aligned_coordinates)
     end
 
-    if aligned == true 
-        return [one_clone(obj, Dict([(:coordinate, move_and_algin(coordinate_template, fn_move, inverted))])) for fn_move in fn_iterator]
-    else
-        return [one_clone(obj, Dict([(:coordinate, fn_move(coordinate_template))])) for fn_move in fn_iterator]
+    function move_obj(obj, fn_move)
+        if aligned == true
+            one_clone(obj, Dict([(:coordinate, move_and_algin(coordinate_template(obj), fn_move, inverted))]))
+        else
+            return one_clone(obj, Dict([(:coordinate, fn_move(coordinate_template(obj)))]))
+        end
     end
-end
 
+    return [move_obj(get_obj(), fn_move) for fn_move in fn_iterator]
+end

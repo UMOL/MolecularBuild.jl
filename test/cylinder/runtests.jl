@@ -6,7 +6,7 @@ Arguments
 :Type{FibonacciCylinder}
     must be type ``FibonacciCylinder``
 
-obj:AbstractMolecularContainer
+objs:Array{AbstractMolecularContainer,1}
     input molecule 
 
 count:Integer
@@ -34,7 +34,8 @@ aligned:Bool
     (keyword) if ``true``, then the principal axis of each object will
     be aligned to the radial direction.
 """
-function test_build(::Type{FibonacciCylinder}, obj::AbstractMolecularContainer,
+function test_build{T<:AbstractMolecularContainer}(::Type{FibonacciCylinder},
+    objs::Array{T,1},
     count::Integer, radius::AbstractFloat, 
     zmin::Real, zmax::Real,
     solution::AbstractArray, msg::AbstractString=""; 
@@ -47,7 +48,7 @@ function test_build(::Type{FibonacciCylinder}, obj::AbstractMolecularContainer,
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    @time answer = build(FibonacciCylinder, obj, count, radius, zmin, zmax; center=center, aligned=aligned)
+    @time answer = build(FibonacciCylinder, objs, count, radius, zmin, zmax; center=center, aligned=aligned)
     
     for i = 1:length(solution)
         for j = 1:length(solution[i])

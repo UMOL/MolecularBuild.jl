@@ -6,8 +6,8 @@ Arguments
 :Type{FibonacciSphere}
     must be type ``FibonacciSphere``
 
-obj:AbstractMolecularContainer
-    input molecule 
+objs:Array{AbstractMolecularContainer,1}
+    input molecules
 
 count:Integer
     number of replica
@@ -28,7 +28,8 @@ aligned:Bool
     (keyword) if ``true``, then the principal axis of each object will
     be aligned to the radial direction.
 """
-function test_build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer,
+function test_build{T<:AbstractMolecularContainer}(::Type{FibonacciSphere},
+    objs::Array{T,1},
     count::Integer, radius::AbstractFloat, 
     solution::AbstractArray, msg::AbstractString=""; 
     center::AbstractArray=[0.,0.,0.],
@@ -40,7 +41,7 @@ function test_build(::Type{FibonacciSphere}, obj::AbstractMolecularContainer,
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    @time answer = build(FibonacciSphere, obj, count, radius; center=center, aligned=aligned)
+    @time answer = build(FibonacciSphere, objs, count, radius; center=center, aligned=aligned)
     
     for i = 1:length(solution)
         for j = 1:length(solution[i])
