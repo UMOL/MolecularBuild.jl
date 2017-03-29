@@ -36,13 +36,34 @@ function build_shape{T<:AbstractMolecularContainer}(
         return fn_move(aligned_coordinates)
     end
 
-    function move_obj(obj, fn_move)
+    function move_obj(obj, fn_move, resid)
         if aligned == true
-            one_clone(obj, Dict([(:coordinate, move_and_algin(coordinate_template(obj), fn_move, inverted))]))
+            one_clone(obj,
+                Dict(
+                    [
+                        (
+                            :coordinate, 
+                            move_and_algin(
+                                coordinate_template(obj), 
+                                fn_move,
+                                inverted)
+                        )
+                    ]
+                )
+            )
         else
-            return one_clone(obj, Dict([(:coordinate, fn_move(coordinate_template(obj)))]))
+            return one_clone(obj,
+                Dict(
+                    [
+                        (
+                            :coordinate,
+                            fn_move(coordinate_template(obj))
+                        )
+                    ]
+                )
+            )
         end
     end
 
-    return [move_obj(get_obj(), fn_move) for fn_move in fn_iterator]
+    return [move_obj(get_obj(), fn_move, i) for (i, fn_move) in enumerate(fn_iterator)]
 end
