@@ -1,5 +1,5 @@
 """
-Align the longitudinal axis (assume to be [1, 0, 0]) of
+Align the longest principal axis of
 an array of coordinates to a reference vector.
 
 Arguments
@@ -26,7 +26,7 @@ function align(input::AbstractArray, new_orientation::AbstractArray,
     tol_near_zero::AbstractFloat=1e-15; 
     center::AbstractArray=[], inverted::Bool=false)
     
-    orientation = [1, 0, 0]
+    orientation = gage(PrincipalAxes, input; center=center)[:,1]
     if inverted
         orientation = -orientation
     end 
