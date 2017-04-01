@@ -4,7 +4,7 @@ large molecules from smaller ones.
 """
 module MolecularBuild
 
-using MolecularDataType
+using SimpleMolecule
 using MolecularMove
 using MolecularGeometry
 
