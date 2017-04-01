@@ -32,8 +32,8 @@ aligned:Bool
 inverted:Bool
     (keyword) if true, then the final orientation will be inverted
 """
-function build{T<:AbstractMolecularContainer}(::Type{PartialFibonacciSphere},
-    objs::Array{T,1},
+function build(::Type{PartialFibonacciSphere},
+    objs::Array{Molecule,1},
     count::Integer,
     radius::AbstractFloat,
     zmin::Real,

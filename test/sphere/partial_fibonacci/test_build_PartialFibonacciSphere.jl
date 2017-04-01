@@ -6,7 +6,7 @@ Arguments
 :Type{PartialFibonacciSphere}
     must be type ``PartialFibonacciSphere``
 
-objs:Array{AbstractMolecularContainer,1}
+molecule:Array{Molecule,1}
     input molecule 
 
 count:Integer
@@ -34,8 +34,8 @@ aligned:Bool
     (keyword) if ``true``, then the principal axis of each object will
     be aligned to the radial direction.
 """
-function test_build{T<:AbstractMolecularContainer}(::Type{PartialFibonacciSphere},
-    objs::Array{T,1},
+function test_build(::Type{PartialFibonacciSphere},
+    molecule::Array{Molecule,1},
     count::Integer, radius::AbstractFloat, 
     zmin::Real, zmax::Real,
     solution::AbstractArray, msg::AbstractString=""; 
@@ -48,11 +48,12 @@ function test_build{T<:AbstractMolecularContainer}(::Type{PartialFibonacciSphere
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    @time answer = build(PartialFibonacciSphere, objs, count, radius, zmin, zmax; center=center, aligned=aligned)
+    @time answer = build(PartialFibonacciSphere, molecule, count, radius, zmin, zmax; center=center, aligned=aligned)
     
     for i = 1:length(solution)
+        tmp = [obtain(atom, :coordinate) for atom in obtain(answer[i], :atoms)]
         for j = 1:length(solution[i])
-            @test_approx_eq obtain(answer[i],:coordinate)[j] solution[i][j]
+            @test_approx_eq tmp[j] solution[i][j]
         end
     end
     print_with_color(:green, "VERIFIED!\n")
@@ -61,4 +62,4 @@ function test_build{T<:AbstractMolecularContainer}(::Type{PartialFibonacciSphere
 end
 
 include("unit_test_1.jl")
-include("unit_test_2.jl")
+# include("unit_test_2.jl")

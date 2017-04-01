@@ -1,5 +1,5 @@
 test_build(FibonacciSphere, 
-    [make_molecular_system(coordinate=Array[[0., 0., 0.],[0., 0., 1.]])],
+    [Molecule([Atom(coordinate=[0., 0., 0.])])],
     5,
     10.,
     Array[

@@ -26,7 +26,7 @@ function build_shape(
     
     mol_count = length(molecules)
     get_mol() = molecules[rand(1:mol_count)]  # randomly choose a molecule
-    original_coordinates(mol::Molecule) = [obtain(atom, :coordinate) for atom in mol]
+    original_coordinates(mol::Molecule) = [obtain(atom, :coordinate) for atom in obtain(mol, :atoms)]
 
     function move_and_algin(coordinates::AbstractArray, fn_move::Function, inverted::Bool)
         # developer's note (10-14-2016):
@@ -50,8 +50,8 @@ function build_shape(
         end
         return Molecule(
             [
-                clone(atom, Dict(:residue_id => resid, :coordinate => new_coordinates[i]))
-                for i, atom in enumerate(obtain(mol, :atoms))
+                clone(atom, Dict(:residue_id => resid, :coordinate => new_coordinates[i])) 
+                for (i, atom) in enumerate(obtain(mol, :atoms))
             ]
         )
     end
