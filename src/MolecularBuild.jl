@@ -13,7 +13,7 @@ export RandomGrid3D
 export FibonacciSphere
 export PartialFibonacciSphere
 export FibonacciCylinder
-export build, align
+export Fn.build, Fn.align
 
 macro debug(expression)
     return :(@assert $expression)
@@ -27,6 +27,6 @@ end
 
 include(joinpath("type","all.jl"))
 
-include(joinpath("function","all.jl"))
+include(joinpath("function","Fn.jl"))
 
 end

@@ -21,7 +21,8 @@ function build_shape(
     fn_iterator::AbstractMoveIterator, 
     molecules::Array{Molecule,1},
     aligned::Bool,
-    inverted::Bool
+    inverted::Bool;
+    mask::Array{Int,1}=[1,1,1]
     )
     
     mol_count = length(molecules)
@@ -33,7 +34,7 @@ function build_shape(
         # It is much better to align first then make a move (translation)
         # otherwise the orientation of the final produce may randomly be inverted
         # due to the brittleness of the matrix version of rotation.
-        ref_vector = fn_move(zeros(3))
+        ref_vector = fn_move(zeros(3)) .* mask
         alignment_center=gage(GeometricCenter, coordinates)
         aligned_coordinates = align(coordinates, ref_vector; center=alignment_center, inverted=inverted)
         return fn_move(aligned_coordinates)

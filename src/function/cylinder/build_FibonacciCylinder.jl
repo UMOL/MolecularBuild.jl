@@ -40,6 +40,6 @@ function build{T<:AbstractMolecularContainer}(::Type{FibonacciCylinder},
     
     fn_iterator = MolecularMove.cylinder(Fibonacci, count, radius, zmin, zmax; center=center)
     
-    return build_shape(fn_iterator, objs, aligned, inverted)
+    return build_shape(fn_iterator, objs, aligned, inverted; mask=[1, 1, 0])
 end
 
