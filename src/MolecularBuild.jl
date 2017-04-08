@@ -5,15 +5,7 @@ large molecules from smaller ones.
 module MolecularBuild
 using Reexport
 
-macro debug(expression)
-    return :(@assert $expression)
-    # return nothing
-end
 
-macro debug_info(expression)
-    return :($expression)
-    # return nothing
-end
 
 include(joinpath("Types","Types.jl"))
 

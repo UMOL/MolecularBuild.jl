@@ -26,7 +26,7 @@ inverted=false:Bool
     (keyword) if true, then the final orientation will be inverted
 
 """
-function align{T<:AbstractFloat}(
+function align(
     input::AbstractArray,
     new_orientation::AbstractArray, 
     tol_near_zero::AbstractFloat=1e-15,

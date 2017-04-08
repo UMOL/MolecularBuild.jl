@@ -1,8 +1,10 @@
 module BuildGrid
-import ..BuildShape
+
 import MolecularMove
 import SimpleMolecule: Molecule
+import ..BuildShape
 import ...Types: Grid
+import ...Align: randomly_orient
 
 """
 Arrange the input molecule to form a n-dimensional grid
@@ -25,19 +27,25 @@ spacings=[1.0, 1.0, 1.0]:Array{Array{AbstractFloat,1},1}
 counts=[1,1,1]:Array{Int,1}
     number of grid points for each dimension
 
-center:Array{AbstractFloat,1}
+center=[0.0,0.0,0.0]:Array{AbstractFloat,1}
     center of the final grid
 
-inverted:Bool
+inverted=false:Bool
     whether the molecule should be inverted
 
-randomized:Bool
+randomized=false:Bool
     whether to randomize the orientation
 
 seed:Int
     seed for generating random orientations
+
+tol=1.e-5::AbstractFloat
+    tolerance for being near zero
+
+max_iter=1000::Int
+    max number of iterations
 """
-function build{T<:AbstractFloat}(
+function build{T<:AbstractFloat, F<:AbstractFloat}(
     ::Type{Grid},
     objs::Array{Molecule,1};
     counts::Array{Int,1}=[1,1,1],
@@ -46,6 +54,9 @@ function build{T<:AbstractFloat}(
     center::Array{T,1}=[0.0, 0.0, 0.0],
     inverted::Bool=false,
     randomized::Bool=false,
+    seed::Int=0,
+    tol::F=1.0e-5,
+    max_iter::Int=1000
     )
 
     translation_iterator = MolecularMove.grid(directions, spacings, counts, center)
@@ -54,10 +65,15 @@ function build{T<:AbstractFloat}(
         return fn_move(coordinates)
     end
 
-
+    function do_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
+        return fn_move(randomly_orient(coordinates, counts; seed=seed, tol=tol, max_iter=max_iter))
+    end
         
-
-    return BuildShape.build(objs, translation_iterator, no_align)
+    if randomized
+        return BuildShape.build(objs, translation_iterator, do_align)
+    else
+        return BuildShape.build(objs, translation_iterator, no_align)
+    end
 end
 
 export build
