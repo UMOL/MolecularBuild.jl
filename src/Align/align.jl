@@ -15,6 +15,10 @@ tol_near_zero=1e-15:AbstractFloat
     This is used to check whether the input vector is already aligned to 
     the new orientation.
 
+original=[]::AbstractArray
+    original orientation.
+    If not set, the principal axis will be used
+
 center=[]:AbstractArray 
     (keyword) center of the alignment rotation
 
@@ -22,11 +26,20 @@ inverted=false:Bool
     (keyword) if true, then the final orientation will be inverted
 
 """
-function align(input::AbstractArray, new_orientation::AbstractArray, 
-    tol_near_zero::AbstractFloat=1e-15; 
-    center::AbstractArray=[], inverted::Bool=false)
+function align{T<:AbstractFloat}(
+    input::AbstractArray,
+    new_orientation::AbstractArray, 
+    tol_near_zero::AbstractFloat=1e-15,
+    original::AbstractArray=[];
+    center::AbstractArray=[],
+    inverted::Bool=false)
     
-    orientation = [1, 0, 0]
+    if length(original) == 0
+        orientation = [1, 0, 0]
+    else
+        orientation = gage(PrincipalAxes, input; center=center)[:,1]
+    end
+
     if inverted
         orientation = -orientation
     end 

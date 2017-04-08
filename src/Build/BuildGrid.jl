@@ -33,6 +33,9 @@ inverted:Bool
 
 randomized:Bool
     whether to randomize the orientation
+
+seed:Int
+    seed for generating random orientations
 """
 function build{T<:AbstractFloat}(
     ::Type{Grid},
@@ -51,8 +54,7 @@ function build{T<:AbstractFloat}(
         return fn_move(coordinates)
     end
 
-    function random_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
-    end
+
         
 
     return BuildShape.build(objs, translation_iterator, no_align)
