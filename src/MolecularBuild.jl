@@ -3,17 +3,7 @@
 large molecules from smaller ones.
 """
 module MolecularBuild
-
-using SimpleMolecule
-using MolecularMove
-using MolecularGeometry
-
-export Grid1D, Grid
-export RandomGrid3D
-export FibonacciSphere
-export PartialFibonacciSphere
-export FibonacciCylinder
-export Fn.build, Fn.align
+using Reexport
 
 macro debug(expression)
     return :(@assert $expression)
@@ -25,8 +15,18 @@ macro debug_info(expression)
     # return nothing
 end
 
-include(joinpath("type","all.jl"))
+include(joinpath("Types","Types.jl"))
 
-include(joinpath("function","Fn.jl"))
+include(joinpath("Toolkit","Toolkit.jl"))
+include(joinpath("Align","Align.jl"))
+include(joinpath("Build","Build.jl"))
 
+@reexport using .Types
+@reexport using .Build
+
+export Grid1D, Grid
+export FibonacciSphere
+export PartialFibonacciSphere
+export FibonacciCylinder
+export build
 end

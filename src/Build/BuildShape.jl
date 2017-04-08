@@ -1,5 +1,6 @@
 module BuildShape
-import SimpleMolecule: Molecule, obtain
+import SimpleMolecule: Molecule, obtain, clone
+import MolecularMove: AbstractMoveIterator
 
 """
 Arrange a objects on a shape using

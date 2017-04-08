@@ -1,3 +1,4 @@
+import ..Types: Grid
 """
 Return a list of lower neighbors' index.
 For example, the lower neighbors of

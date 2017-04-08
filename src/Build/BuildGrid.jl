@@ -1,7 +1,8 @@
-module Grid
+module BuildGrid
 import ..BuildShape
 import MolecularMove
 import SimpleMolecule: Molecule
+import ...Types: Grid
 
 """
 Arrange the input molecule to form a n-dimensional grid
@@ -33,7 +34,8 @@ inverted:Bool
 randomized:Bool
     whether to randomize the orientation
 """
-function build{T<:AbstractFloat}(::Type{Grid},
+function build{T<:AbstractFloat}(
+    ::Type{Grid},
     objs::Array{Molecule,1};
     counts::Array{Int,1}=[1,1,1],
     directions::Array{Array{T,1},1}=eye(3),
@@ -50,10 +52,11 @@ function build{T<:AbstractFloat}(::Type{Grid},
     end
 
     function random_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
+    end
         
 
     return BuildShape.build(objs, translation_iterator, no_align)
 end
 
-
+export build
 end
