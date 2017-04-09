@@ -23,7 +23,7 @@ function test{F<:AbstractFloat}(
     for i = 1:size(solution, 1)
         coordintes = [obtain(atom, :coordinate) for atom in obtain(molecules[i], :atoms)]
         for j = 1:size(solution[i], 1)
-            @test_approx_eq coordintes[j] solution[i][j]
+            @test_approx_eq_eps coordintes[j] solution[i][j] 1e-5
         end
     end
 

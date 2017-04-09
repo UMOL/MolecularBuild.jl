@@ -43,7 +43,7 @@ tol=1.e-5::AbstractFloat
     tolerance for being near zero
 
 max_iter=1000::Int
-    max number of iterations
+    max number of iteration
 """
 function build{T<:AbstractFloat, F<:AbstractFloat}(
     ::Type{Grid},
@@ -55,7 +55,7 @@ function build{T<:AbstractFloat, F<:AbstractFloat}(
     inverted::Bool=false,
     randomized::Bool=false,
     seed::Int=0,
-    tol::F=1.0e-5,
+    tol::F=1e-5,
     max_iter::Int=1000
     )
 
@@ -66,10 +66,10 @@ function build{T<:AbstractFloat, F<:AbstractFloat}(
     end
 
     function do_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
-        return fn_move(randomly_orient(coordinates, counts; seed=seed, tol=tol, max_iter=max_iter))
+        return fn_move(randomly_orient(coordinates; seed=seed, tol=tol, max_iter=max_iter))
     end
         
-    if randomized
+    if randomized == true
         return BuildShape.build(objs, translation_iterator, do_align)
     else
         return BuildShape.build(objs, translation_iterator, no_align)
