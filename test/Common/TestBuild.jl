@@ -6,6 +6,7 @@ import SimpleMolecule: obtain, Molecule
 using Base.Test
 
 function test{F<:AbstractFloat}(
+    builder::Function,
     T::Type,
     objs::Array{Molecule,1},
     params::Dict,
@@ -18,7 +19,7 @@ function test{F<:AbstractFloat}(
         print_with_color(:blue, "$(msg)\n\n")
     end
 
-    @time molecules = MolecularBuild.build(T, objs; params...)
+    @time molecules = builder(T, objs; params...)
 
     for i = 1:size(solution, 1)
         coordintes = [obtain(atom, :coordinate) for atom in obtain(molecules[i], :atoms)]

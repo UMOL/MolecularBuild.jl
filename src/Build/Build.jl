@@ -1,7 +1,8 @@
 module Build
 include("BuildShape.jl")
 include("BuildGrid.jl")
-using Reexport
-@reexport using .BuildGrid
-export build
+include("BuildSphere.jl")
+
+export BuildGrid
+export BuildSphere
 end

@@ -1,4 +1,5 @@
 module BuildShape
+
 import SimpleMolecule: Molecule, obtain, clone
 import MolecularMove: AbstractMoveIterator
 
@@ -16,11 +17,15 @@ move_iterator:AbstractMoveIterator
 
 fn_align:Function(coordinates, fn_move)
     a function that aligns the coordinates
+
+align_params::Dict
+    (optional) keyword parameters for the fn_align
 """
 function build(
     molecules::Array{Molecule,1},
     move_iterator::AbstractMoveIterator, 
     fn_align::Function,
+    align_params::Dict=Dict(),
     )
     
     mol_count = length(molecules)
@@ -28,7 +33,7 @@ function build(
     original_coordinates(mol::Molecule) = [obtain(atom, :coordinate) for atom in obtain(mol, :atoms)]
 
     function move_molecule(mol::Molecule, fn_move::Function, fn_align::Function, resid::Int)
-        new_coordinates = fn_align(original_coordinates(mol), fn_move)
+        new_coordinates = fn_align(original_coordinates(mol), fn_move, align_params)
         return Molecule(
             [
                 clone(atom, Dict(:residue_id => resid, :coordinate => new_coordinates[i])) 

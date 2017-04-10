@@ -1,11 +1,12 @@
 module Test2
 import Common: TestBuild
-import MolecularBuild
+import MolecularBuild: Grid, BuildGrid
 import SimpleMolecule: Molecule, Atom
 
 function test()
     TestBuild.test(
-        MolecularBuild.Grid,
+        BuildGrid.build,
+        Grid,
         [Molecule([
             Atom(coordinate=[-1.0, 0., 0.]),
             Atom(coordinate=[1.0, 0., 0.]),

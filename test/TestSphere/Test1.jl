@@ -1,12 +1,11 @@
 module Test1
 import Common: TestBuild
-import MolecularBuild: Grid, BuildGrid
+import MolecularBuild
 import SimpleMolecule: Molecule, Atom
 
 function test()
     TestBuild.test(
-        BuildGrid.build,
-        Grid,
+        MolecularBuild.Grid,
         [Molecule([Atom(coordinate=[0., 0., 0.])])],
         Dict(
             :directions => [[1.,0.,0.], [0., 1., 0.], [0., 0., 1.]],

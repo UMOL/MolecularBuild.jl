@@ -5,7 +5,7 @@ import MolecularMove: Euclidean
 import SimpleMolecule: Molecule
 import ..BuildShape
 import ...Types: Grid
-import ...Align: randomly_orient
+import ...Align: RandomlyAlignMove, no_align
 
 """
 Arrange the input molecule to form a n-dimensional grid
@@ -63,16 +63,9 @@ function build{T<:AbstractFloat, F<:AbstractFloat}(
     translation_iterator = MolecularMove.grid(Euclidean;
         directions=directions, spacings=spacings, numbers=numbers, center=center)
 
-    function no_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
-        return fn_move(coordinates)
-    end
-
-    function do_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
-        return fn_move(randomly_orient(coordinates; seed=seed, tol=tol, max_iter=max_iter))
-    end
-        
     if randomized == true
-        return BuildShape.build(objs, translation_iterator, do_align)
+        params = Dict(:seed=>seed, :tol=>tol, :max_iter=>max_iter)
+        return BuildShape.build(objs, translation_iterator, RandomlyAlignMove.align, params)
     else
         return BuildShape.build(objs, translation_iterator, no_align)
     end

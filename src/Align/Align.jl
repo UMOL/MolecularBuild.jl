@@ -1,7 +1,10 @@
 module Align
-include("align.jl")
-include("randomly_orient.jl")
+include("BasicAlign.jl")
+include("RandomlyOrient.jl")
+include("RandomlyAlignMove.jl")
+include("no_align.jl")
 
-export align
-export randomly_orient
+export BasicAlign
+export RandomlyAlignMove
+export no_align
 end
