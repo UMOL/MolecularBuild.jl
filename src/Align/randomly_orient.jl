@@ -1,4 +1,4 @@
-import MolecularMove: rotate, RandomEuclidean3D
+import MolecularMove: rotate, rotate_seed, RandomEuclidean3D
 import MolecularGeometry: gage, GeometricCenter
 import ..Toolkit: has_clash, lower_neighbors, @debug
 import ..Types: Grid
@@ -32,10 +32,10 @@ function randomly_orient{T<:AbstractFloat, F<:AbstractFloat}(
 
     # only use the seed once
     if seed != 0
-        rotate(RandomEuclidean3D, seed)
+        rotate_seed(seed)
     end
 
     center = gage(GeometricCenter, coordinates)
     return rotate(RandomEuclidean3D,
-            coordinates, tol, max_iter; center=center)
+            coordinates; tol=tol, max_iter=max_iter, center=center)
 end

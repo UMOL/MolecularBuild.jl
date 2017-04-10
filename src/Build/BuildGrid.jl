@@ -1,6 +1,7 @@
 module BuildGrid
 
 import MolecularMove
+import MolecularMove: Euclidean
 import SimpleMolecule: Molecule
 import ..BuildShape
 import ...Types: Grid
@@ -24,7 +25,7 @@ direction=eye(3):Array{Array{AbstractFloat,1},1}
 spacings=[1.0, 1.0, 1.0]:Array{Array{AbstractFloat,1},1}
     (keyword arg.) spacing between two neighboring grid points for each dimension
 
-counts=[1,1,1]:Array{Int,1}
+numbers=[1,1,1]:Array{Int,1}
     number of grid points for each dimension
 
 center=[0.0,0.0,0.0]:Array{AbstractFloat,1}
@@ -48,7 +49,7 @@ max_iter=1000::Int
 function build{T<:AbstractFloat, F<:AbstractFloat}(
     ::Type{Grid},
     objs::Array{Molecule,1};
-    counts::Array{Int,1}=[1,1,1],
+    numbers::Array{Int,1}=[1,1,1],
     directions::Array{Array{T,1},1}=eye(3),
     spacings::Array{T,1}=[1.0,1.0,1.0],
     center::Array{T,1}=[0.0, 0.0, 0.0],
@@ -59,7 +60,8 @@ function build{T<:AbstractFloat, F<:AbstractFloat}(
     max_iter::Int=1000
     )
 
-    translation_iterator = MolecularMove.grid(directions, spacings, counts, center)
+    translation_iterator = MolecularMove.grid(Euclidean;
+        directions=directions, spacings=spacings, numbers=numbers, center=center)
 
     function no_align{T<:AbstractFloat}(coordinates::Array{Array{T,1},1}, fn_move::Function)
         return fn_move(coordinates)

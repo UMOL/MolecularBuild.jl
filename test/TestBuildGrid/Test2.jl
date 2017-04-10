@@ -13,7 +13,7 @@ function test()
         Dict(
             :directions => [[1.,0.,0.], [0., 1., 0.], [0., 0., 1.]],
             :spacings => [1.0, 1.0, 1.0],
-            :counts => [2, 2, 2],
+            :numbers => [2, 2, 2],
             :center => zeros(3),
             :inverted => false,
             :randomized => true,
