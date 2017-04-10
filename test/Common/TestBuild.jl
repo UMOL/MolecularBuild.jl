@@ -21,10 +21,10 @@ function test{F<:AbstractFloat}(
 
     @time molecules = builder(T, objs; params...)
 
+    answer = [[obtain(atom, :coordinate) for atom in obtain(mol, :atoms)] for mol in molecules]
     for i = 1:size(solution, 1)
-        coordintes = [obtain(atom, :coordinate) for atom in obtain(molecules[i], :atoms)]
         for j = 1:size(solution[i], 1)
-            @test_approx_eq_eps coordintes[j] solution[i][j] 1e-5
+            @test_approx_eq_eps answer[i][j] solution[i][j] 1e-4
         end
     end
 

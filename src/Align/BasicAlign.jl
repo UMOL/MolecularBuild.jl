@@ -1,4 +1,9 @@
 module BasicAlign
+
+import MolecularGeometry: gage, ProjectedRotationAngle
+import MolecularGeometry: PrincipalAxes
+import MolecularMove: rotate, Euclidean3D
+
 """
 Align the longitudinal axis (assume to be [1, 0, 0]) of
 an array of coordinates to a reference vector.
@@ -31,13 +36,11 @@ function align(
     input::AbstractArray,
     new_orientation::AbstractArray;
     tol::AbstractFloat=1e-6,
-    old_orientation::AbstractArray=[],
-    center::AbstractArray=[],
+    old_orientation::AbstractArray=Float64[],
+    center::AbstractArray=Float64[],
     inverted::Bool=false)
     
     if length(old_orientation) == 0
-        old_orientation = [1, 0, 0]
-    else
         old_orientation = gage(PrincipalAxes, input; center=center)[:,1]
     end
 
@@ -53,8 +56,8 @@ function align(
         return input # no need to rotate
     else # normalize the ref_axis
         ref_axis = ref_axis ./ ref_axis_length
-        angle = gage(ProjectedRotationAngle, orientation, new_orientation, ref_axis)
-        return rotate(Euclidean3D, input, ref_axis, angle; center=center)
+        rotation_angle = gage(ProjectedRotationAngle, old_orientation, new_orientation, ref_axis)
+        return rotate(Euclidean3D, input; ref=ref_axis, theta=rotation_angle, center=center)
     end
 end
 

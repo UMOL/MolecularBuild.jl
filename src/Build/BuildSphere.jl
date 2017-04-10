@@ -4,7 +4,7 @@ import MolecularMove
 import SimpleMolecule: Molecule
 import ..BuildShape
 import ...Types: FibonacciSphere
-import ...Align: no_align
+import ...Align: no_align, AlignMove
 
 """
 Arrange a objects on a sphere using
@@ -34,22 +34,25 @@ aligned:Bool
 inverted:Bool
     (keyword) if true, then the final orientation will be inverted
 """
-function build{T<:AbstractFloat}(
+function build{T1<:AbstractFloat, T2<:AbstractFloat}(
     ::Type{FibonacciSphere},
     mols::Array{Molecule,1};
     number::Integer=0,
     radius::AbstractFloat=0.0,
-    center::Array{T,1}=[0.,0.,0.],
+    center::Array{T1,1}=[0.,0.,0.],
     aligned::Bool=false,
-    inverted::Bool=false
+    inverted::Bool=false,
+    old_orientation::Array{T2,1}=Float64[]
     )
     translation_iterator = MolecularMove.sphere(MolecularMove.Fibonacci;
         number=number, radius=radius, center=center)
 
-    if randomized == true
-        return BuildShape.build(objs, translation_iterator, no_align)
+    if aligned == true
+        p = Dict(:mask=>[1.0, 1.0, 1.0], :inverted=>inverted, :center=>center,
+            :old_orientation=>old_orientation)
+        return BuildShape.build(mols, translation_iterator, AlignMove.align, p)
     else
-        return BuildShape.build(objs, translation_iterator, no_align)
+        return BuildShape.build(mols, translation_iterator, no_align, Dict())
     end
 end
 end

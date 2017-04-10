@@ -4,7 +4,9 @@ end
 
 include(joinpath("Common", "Common.jl"))
 include(joinpath("TestBuildGrid", "TestBuildGrid.jl"))
+include(joinpath("TestBuildSphere", "TestBuildSphere.jl"))
 
 import TestBuildGrid
 
-TestBuildGrid.test()
+# TestBuildGrid.test()
+TestBuildSphere.test()

@@ -33,7 +33,7 @@ function build(
     original_coordinates(mol::Molecule) = [obtain(atom, :coordinate) for atom in obtain(mol, :atoms)]
 
     function move_molecule(mol::Molecule, fn_move::Function, fn_align::Function, resid::Int)
-        new_coordinates = fn_align(original_coordinates(mol), fn_move, align_params)
+        new_coordinates = fn_align(original_coordinates(mol), fn_move; align_params...)
         return Molecule(
             [
                 clone(atom, Dict(:residue_id => resid, :coordinate => new_coordinates[i])) 
