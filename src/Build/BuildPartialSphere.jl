@@ -1,20 +1,20 @@
-module BuildSphere
+module BuildPartialSphere
 
 import MolecularMove
-import MolecularMove: Fibonacci
+import MolecularMove: PartialFibonacci
 import SimpleMolecule: Molecule
 import ..BuildShape
-import ...Types: FibonacciSphere
+import ...Types: PartialFibonacciSphere
 import ...Align: no_align, AlignMove
 
 """
-Arrange a objects on a sphere using
+Arrange a objects on a partial sphere using
 the Fibonacci (sunflower) algorithm.
 
 Arguments
 ----------
-:Type{FibonacciSphere}
-    must be type ``FibonacciSphere``
+:Type{PartialFibonacciSphere}
+    must be type ``PartialFibonacciSphere``
 
 mols:Array{Molecule,1}
     list of molecules
@@ -22,10 +22,10 @@ mols:Array{Molecule,1}
 number=0:Integer
     (keyword) number of replica
 
-radius:AbstractFloat
+radius=0.0:AbstractFloat
     (keyword) radius of the sphere
 
-center=[]:AbstractArray 
+center=[0,0,0]:AbstractArray 
     (keyword) center of the sphere
 
 aligned:Bool
@@ -34,19 +34,28 @@ aligned:Bool
 
 inverted:Bool
     (keyword) if true, then the final orientation will be inverted
+
+zmin=0.0:AbstractFloat
+    (keyword) lower bound along z-axis
+
+zmax=0.0:AbstractFloat
+    (keyword) upper bound along z-axis
 """
 function build{T1<:AbstractFloat, T2<:AbstractFloat}(
-    ::Type{FibonacciSphere},
+    ::Type{PartialFibonacciSphere},
     mols::Array{Molecule,1};
     number::Integer=0,
     radius::AbstractFloat=0.0,
     center::Array{T1,1}=[0.,0.,0.],
     aligned::Bool=false,
     inverted::Bool=false,
-    old_orientation::Array{T2,1}=Float64[]
+    old_orientation::Array{T2,1}=Float64[],
+    zmin::AbstractFloat=0.0,
+    zmax::AbstractFloat=0.0
     )
-    translation_iterator = MolecularMove.sphere(Fibonacci;
-        number=number, radius=radius, center=center)
+    translation_iterator = MolecularMove.sphere(PartialFibonacci;
+        number=number, radius=radius, center=center,
+        zmin=zmin, zmax=zmax)
 
     if aligned == true
         p = Dict(:mask=>[1.0, 1.0, 1.0], :inverted=>inverted, :center=>center,
