@@ -65,7 +65,7 @@ function build{T<:AbstractFloat, F<:AbstractFloat}(
 
     if randomized == true
         p = Dict(:params => Dict(:seed=>seed, :tol=>tol, :max_iter=>max_iter))
-        return BuildShape.build(objs, translation_iterator, RandomlyAlignMove.align, p)
+        return BuildShape.build(objs, translation_iterator, RandomlyAlignMove.place, p)
     else
         return BuildShape.build(objs, translation_iterator, no_align)
     end

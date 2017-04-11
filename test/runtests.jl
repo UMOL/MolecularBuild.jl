@@ -10,5 +10,5 @@ include(joinpath("TestBuildCylinder", "TestBuildCylinder.jl"))
 import TestBuildGrid
 
 # TestBuildGrid.test()
-# TestBuildSphere.test()
+TestBuildSphere.test()
 TestBuildCylinder.test()

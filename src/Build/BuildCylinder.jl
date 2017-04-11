@@ -61,9 +61,8 @@ function build{T1<:AbstractFloat, T2<:AbstractFloat}(
         zmin=zmin, zmax=zmax)
 
     if aligned == true
-        p = Dict(:mask=>[1.0, 1.0, 0.0], :inverted=>inverted, :center=>center,
-            :old_orientation=>old_orientation)
-        return BuildShape.build(mols, translation_iterator, AlignMove.align, p)
+        p = Dict(:inverted=>inverted, :old_orientation=>old_orientation)
+        return BuildShape.build(mols, translation_iterator, AlignMove.place, p)
     else
         return BuildShape.build(mols, translation_iterator, no_align, Dict())
     end
