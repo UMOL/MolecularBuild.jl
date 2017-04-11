@@ -4,7 +4,7 @@ import MolecularMove
 import MolecularMove: PartialFibonacci
 import SimpleMolecule: Molecule
 import ..BuildShape
-import ...Types: FibonacciCylinder
+import ...Types: PartialFibonacciTorus
 import ...Align: no_align, AlignMove
 
 """
@@ -13,8 +13,8 @@ the Fibonacci spiral algorithm.
 
 Arguments
 ----------
-:Type{FibonacciCylinder}
-    must be type ``FibonacciCylinder``
+:Type{PartialFibonacciCTorus
+    must be type ``PartialFibonacciCyTorus
 
 mols:Array{Molecule,1}
     list of molecules
@@ -51,7 +51,7 @@ zmax=0.0:AbstractFloat
     (keyword) upper bound along z-axis
 """
 function build{T1<:AbstractFloat, T2<:AbstractFloat}(
-    ::Type{FibonacciCylinder},
+    ::Type{PartialFibonacciTorus},
     mols::Array{Molecule,1};
     number::Integer=0,
     radius::AbstractFloat=0.0,
@@ -68,9 +68,13 @@ function build{T1<:AbstractFloat, T2<:AbstractFloat}(
         number=number, radius=radius, a=a, b=b, center=center,
         zmin=zmin, zmax=zmax)
 
+    function fn_mask{T<:AbstractFloat}(xs::Array{T,1})
+        return xs - (radius/norm(xs[1:2]))*[xs[1], xs[2], 0.0]
+    end
+
     if aligned == true
-        p = Dict(:mask=>[1.0, 1.0, 0.0], :inverted=>inverted,
-            :old_orientation=>old_orientation)
+        p = Dict(:inverted=>inverted, :old_orientation=>old_orientation,
+            :fn_mask=>fn_mask)
         return BuildShape.build(mols, translation_iterator, AlignMove.place, p)
     else
         return BuildShape.build(mols, translation_iterator, no_align, Dict())
